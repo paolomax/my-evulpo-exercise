@@ -15,6 +15,7 @@ let questions = [];
 let options = [];
 let correctIndexes = [];
 let scores = [];
+let userScores = [];
 
 //array for current question
 let currentQuestionIndex = -1;
@@ -137,8 +138,10 @@ const progressBarGoOn = () => {
 };
 
 const showNextQuestion = () => {
+  currentQuestionIndex !== -1 && hidePreviousQuestion();
   setNextStates();
   slideContainers();
+  evaluated = false;
   currentQuestionIndex++;
 };
 
@@ -208,6 +211,76 @@ const enableCurrentEvaluationButton = () => {
   evButton.disabled = false;
 };
 
+const evaluateAndSetNextContainer = () => {
+  myEvaluation();
+
+  console.log("Current question index: " + currentQuestionIndex);
+  console.log("Questions length: " + questions.length);
+  if (currentQuestionIndex < questions.length) {
+    console.log("Setting next container...");
+    setNextContainer();
+  }
+};
+
+const myEvaluation = () => {
+  toggleShowButton();
+
+  evaluated = true;
+  let evMessages = document.querySelectorAll(".evaluation-message");
+  let evMessage = evMessages[currentQuestionIndex];
+
+  let chosenIndex = states.indexOf(true);
+  if (chosenIndex == correctIndexes[currentQuestionIndex]) {
+    evMessage.innerHTML = "<p>Awesome!</p>";
+    userScores.push(scores[currentQuestionIndex]);
+  } else {
+    evMessage.innerHTML = "<p>Keep trying!</p>";
+  }
+};
+
+const toggleShowButton = () => {
+  //select current evaluation button
+  let evButtons = document.querySelectorAll(`.evaluation-button`);
+  let evButton = evButtons[currentQuestionIndex];
+
+  //hide it and show the next button
+  evButton.style.display = "none";
+  let nextButton =
+    document.querySelectorAll(`.next-button`)[currentQuestionIndex];
+
+  nextButton.style.display = "block";
+};
+
+const setNextContainer = () => {
+  let questionContainer = document.createElement("div");
+  questionContainer.classList.add("question-container");
+  questionContainer.id = `question-container-${currentQuestionIndex + 1}`;
+
+  questionContainer.innerHTML = questionContainerContent = `
+      <div class="question" id="question-${currentQuestionIndex + 1}">
+      </div>
+      <div class="options-wrapper" id="options-wrapper-${
+        currentQuestionIndex + 1
+      }"></div>
+      <div class="evaluation-message"></div>
+      <button disabled class="evaluation-button" onclick="evaluateAndSetNextContainer()">Evaluate</button>
+      <button class="next-button" onclick="goOn()">Next</button>
+      `;
+
+  questionContainer.style.transform = `translateX(-100vw)`;
+
+  //append the question container after last question container
+
+  let lastQuestionContainer = document.querySelector(
+    `#question-container-${currentQuestionIndex}`
+  );
+
+  lastQuestionContainer.parentNode.insertBefore(
+    questionContainer,
+    lastQuestionContainer.nextSibling
+  );
+};
+
 // add the step dots to the progress bar and set their position and opacity
 const addStepDots = (progressBar, blockLengthPercentage) => {
   //a span element for each question is created and added to the progress bar
@@ -232,4 +305,16 @@ const showDots = () => {
   for (let i = 0; i < stepDots.length; i++) {
     stepDots[i].style.opacity = 1;
   }
+};
+
+const hidePreviousQuestion = () => {
+  //after the animation, set the display of the current question container to none
+
+  let questionContainer = document.querySelector(
+    `#question-container-${currentQuestionIndex}`
+  );
+
+  setTimeout(() => {
+    questionContainer.style.display = "none";
+  }, 800);
 };
