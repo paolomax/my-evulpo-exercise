@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Evulpo Exercise Test</title>
     <meta
@@ -10,15 +10,35 @@
       name="keywords"
       content="single-choice exercise basic-data-connection"
     />
-    <script src="main.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <p class="question">Which is the correct option?</p>
-    <div id="options-wrapper"></div>
+    <header>
+      <section id="progress-bar-container">
+        <div id="progress-bar"></div>
+      </section>
+    </header>
+    <main>
+      <section id="loading-container">
+        <h1 id="loading-heading">Get Ready!</h1>
+        <object
+          aria-label="loading-heading"
+          type="image/svg+xml"
+          data="/loading-pic.svg"
+          style="width: 30rem"
+        ></object>
+      </section>
+      <!-- <p class="question">Which is the correct option?</p>
+      <div id="options-wrapper"></div>
 
-    <button onclick="myEvaluation()">Evaluate!</button>
-    <div id="evaluation-message"></div>
+      <button onclick="myEvaluation()">Evaluate!</button>
+      <div id="evaluation-message"></div> -->
+    </main>
+    <footer></footer>
+
+    <script src="main.js" type="text/javascript"></script>
+
     <script
       async
       defer
