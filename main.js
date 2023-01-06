@@ -20,6 +20,9 @@ let scores = [];
 let currentQuestionIndex = -1;
 let states = [];
 
+//boolean to check if the exercise has been evaluated
+let evaluated = false;
+
 // load the client
 function handleClientLoad() {
   gapi.load("client", initClient);
@@ -169,6 +172,40 @@ const setNextStates = () => {
   //set states to an array of false with the
   //same length as the number of options
   states = new Array(options[currentQuestionIndex + 1].length).fill(false);
+};
+
+// after the user has chosen an option, set the question to chosen
+const toggleChoice = (i) => {
+  enableCurrentEvaluationButton();
+  //if the question has been evaluated, do nothing
+  if (evaluated) return;
+
+  //if there is another option chosen, set it to unchosen
+  if (states.includes(true)) {
+    let index = states.indexOf(true);
+    states[index] = false;
+    let optionNode = document.querySelector(
+      `#option-${currentQuestionIndex}-${index}`
+    );
+
+    optionNode.classList.remove("chosen");
+    optionNode.classList.add("unchosen");
+  }
+
+  //set correspondent option to chosen
+  states[i] = true;
+
+  let optionNode = document.querySelector(
+    `#option-${currentQuestionIndex}-${i}`
+  );
+  optionNode.classList.remove("unchosen");
+  optionNode.classList.add("chosen");
+};
+
+const enableCurrentEvaluationButton = () => {
+  let evButton = document.querySelectorAll(`.evaluation-button`);
+  evButton[currentQuestionIndex].disabled = false;
+  evButton.disabled = false;
 };
 
 // add the step dots to the progress bar and set their position and opacity
