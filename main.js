@@ -16,10 +16,9 @@ let options = [];
 let correctIndexes = [];
 let scores = [];
 
-let states = [false, false, false];
-let correct_answer_index = 0;
-
-// document.addEventListener("DOMContentLoaded", init);
+//array for current question
+let currentQuestionIndex = -1;
+let states = [];
 
 // load the client
 function handleClientLoad() {
@@ -53,6 +52,8 @@ const getData = async () => {
 
 const init = (data) => {
   setExcerciseData(data);
+  setProgressBar();
+  startExercise();
 };
 
 // initialize the exercise data
@@ -77,33 +78,121 @@ const setExcerciseData = (rawData) => {
   }
 };
 
-// function init() {
-//   let optionsContainer = document.querySelector("#options-wrapper");
-//   for (let i = 0; i < options.length; i++) {
-//     optionsContainer.innerHTML +=
-//       "<div class='unchosen option'><p class='text'>" +
-//       options[i] +
-//       "</p></div>";
-//   }
-//   // ...
-// }
+// initialize the progress bar and add the step dots to it based on the number of questions
+const setProgressBar = () => {
+  let progressBar = document.querySelector("#progress-bar");
+  let blockLengthPercentage = 100 / (questions.length + 1);
 
-// function toggleChoice(i) {
-//   states[i] = true;
-//   // ...
-// }
+  addStepDots(progressBar, blockLengthPercentage);
+};
 
-// function myEvaluation() {
-//   let evMessage = document.querySelector("#evaluation-message");
-//   for (let i = 0; i < options.length; i++) {
-//     if (states[i] && i == correct_answer_index) {
-//       evMessage.innerHTML = "<p>Awesome!</p>";
-//       // console.log('awesome')
-//       break;
-//     } else {
-//       evMessage.innerHTML = "<p>Keep trying!</p>";
-//       // console.log('tryAgain')
-//       break;
-//     }
-//   }
-// }
+const startExercise = () => {
+  setTimeout(() => {
+    //initialize the exercise
+    showDots();
+    goOn();
+    hideLoadingContainer();
+  }, 1200);
+};
+
+const goOn = () => {
+  if (currentQuestionIndex < questions.length - 1) {
+    {
+      setNextQuestion();
+      setNextOptions();
+      progressBarGoOn();
+      showNextQuestion();
+    }
+  }
+};
+
+const setNextQuestion = () => {
+  let question = document.querySelector(
+    `#question-${currentQuestionIndex + 1}`
+  );
+  question.innerHTML = questions[currentQuestionIndex + 1];
+};
+
+const setNextOptions = () => {
+  let optionsWrapper = document.querySelector(
+    `#options-wrapper-${currentQuestionIndex + 1}`
+  );
+  optionsWrapper.innerHTML = "";
+  options[currentQuestionIndex + 1].forEach((option, i) => {
+    optionsWrapper.innerHTML += `<div class='unchosen option' onclick='toggleChoice(${i})' id='option-${
+      currentQuestionIndex + 1
+    }-${i}'><p class='text'>${option}</p></div>`;
+  });
+};
+
+const progressBarGoOn = () => {
+  fillNextDot();
+  //set the width of the progress bar to the current question
+  let stepBlock = document.querySelector("#progress-bar-inner");
+  let progressWidth = (100 / questions.length) * (currentQuestionIndex + 2);
+  stepBlock.style.width = progressWidth + "%";
+};
+
+const showNextQuestion = () => {
+  setNextStates();
+  slideContainers();
+  currentQuestionIndex++;
+};
+
+const hideLoadingContainer = () => {
+  let loadingContainer = document.querySelector("#loading-container");
+  loadingContainer.style.transform = "translateX(100vw)";
+
+  //after the animation, set the display of the loading container to none
+  setTimeout(() => {
+    document.querySelector("#loading-container").style.display = "none";
+  }, 800);
+};
+
+const slideContainers = () => {
+  let nextQuestionContainer = document.querySelector(
+    `#question-container-${currentQuestionIndex + 1}`
+  );
+  nextQuestionContainer.style.transform = `translateX(0vw)`;
+
+  //when this function is called for the first time, the current question index is -1
+  //and there is no previous question to hide. Otherwise, hide question shown before
+  if (currentQuestionIndex !== -1) {
+    let currentQuestionContainer = document.querySelector(
+      `#question-container-${currentQuestionIndex}`
+    );
+    currentQuestionContainer.style.transform = `translateX(100vw)`;
+  }
+};
+
+const setNextStates = () => {
+  //set states to an array of false with the
+  //same length as the number of options
+  states = new Array(options[currentQuestionIndex + 1].length).fill(false);
+};
+
+// add the step dots to the progress bar and set their position and opacity
+const addStepDots = (progressBar, blockLengthPercentage) => {
+  //a span element for each question is created and added to the progress bar
+  for (let i = 1; i < questions.length + 1; i++) {
+    let span = document.createElement("span");
+    span.classList.add("step-dot");
+    let leftPosition = blockLengthPercentage * i;
+    span.style.left = leftPosition + "%";
+    span.style.opacity = 0;
+    progressBar.appendChild(span);
+  }
+};
+
+const fillNextDot = () => {
+  let stepDots = document.querySelectorAll(".step-dot");
+  let currentDot = stepDots[currentQuestionIndex + 1];
+  currentDot.classList.add("completed-step-dot");
+};
+
+const showDots = () => {
+  let stepDots = document.querySelectorAll(".step-dot");
+  for (let i = 0; i < stepDots.length; i++) {
+    stepDots[i].style.opacity = 1;
+  }
+};
