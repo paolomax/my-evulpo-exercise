@@ -235,7 +235,7 @@ button:hover {
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-  #loading-pic {
+  .animated-svg {
     width: 45vw;
   }
 
@@ -250,7 +250,7 @@ button:hover {
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 601px) and (max-width: 767px) {
-  #loading-pic {
+  .animated-svg {
     width: 40vw;
   }
 
@@ -265,7 +265,7 @@ button:hover {
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-  #loading-pic {
+  .animated-svg {
     width: 35vw;
   }
 
@@ -280,7 +280,7 @@ button:hover {
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
-  #loading-pic {
+  .animated-svg {
     width: 30vw;
   }
 
@@ -295,7 +295,7 @@ button:hover {
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
-  #loading-pic {
+  .animated-svg {
     max-width: 25vw;
   }
 
@@ -310,7 +310,7 @@ button:hover {
 
 /* Extra extra large devices (extra large laptops and desktops, 1400px and up) */
 @media only screen and (min-width: 1400px) {
-  #loading-pic {
+  .animated-svg {
     max-width: 20vw;
   }
 

@@ -46,7 +46,7 @@ const getData = async () => {
   try {
     const response = await gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: "1hzA42BEzt2lPvOAePP6RLLRZKggbg0RWuxSaEwd5xLc",
-      range: "!A1:F3",
+      range: "!A1:F5",
     });
     init(response.result.values);
   } catch (error) {
@@ -353,7 +353,22 @@ const colorButtons = (pickedCorrect) => {
 };
 
 const showResults = () => {
+  setScore();
   hidePreviousQuestion();
+
   let resultsContainer = document.querySelector("#results-container");
   resultsContainer.style.transform = "translateX(0)";
+
+  let lastQuestionContainer = document.querySelector(
+    `#question-container-${currentQuestionIndex}`
+  );
+
+  lastQuestionContainer.style.transform = "translateX(100vw)";
+};
+
+const setScore = () => {
+  let score = userScores.reduce((a, b) => a + b, 0);
+  let resultMessage = document.querySelector("#result-message");
+  let totalScore = scores.reduce((a, b) => a + b, 0);
+  resultMessage.innerHTML = `Your score is ${score} out  of ${totalScore}!`;
 };
