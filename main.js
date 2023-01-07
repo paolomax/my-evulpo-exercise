@@ -214,10 +214,7 @@ const enableCurrentEvaluationButton = () => {
 const evaluateAndSetNextContainer = () => {
   myEvaluation();
 
-  console.log("Current question index: " + currentQuestionIndex);
-  console.log("Questions length: " + questions.length);
   if (currentQuestionIndex < questions.length) {
-    console.log("Setting next container...");
     setNextContainer();
   }
 };
@@ -225,17 +222,23 @@ const evaluateAndSetNextContainer = () => {
 const myEvaluation = () => {
   toggleShowButton();
 
+  let pickedCorrect = false;
   evaluated = true;
-  let evMessages = document.querySelectorAll(".evaluation-message");
-  let evMessage = evMessages[currentQuestionIndex];
+
+  let evMessage = document.querySelector(
+    `#evaluation-message-${currentQuestionIndex}`
+  );
 
   let chosenIndex = states.indexOf(true);
   if (chosenIndex == correctIndexes[currentQuestionIndex]) {
-    evMessage.innerHTML = "<p>Awesome!</p>";
+    pickedCorrect = true;
+    evMessage.innerHTML = "Awesome!";
     userScores.push(scores[currentQuestionIndex]);
   } else {
-    evMessage.innerHTML = "<p>Keep trying!</p>";
+    evMessage.innerHTML = "Keep trying!";
   }
+
+  colorButtons(pickedCorrect);
 };
 
 const toggleShowButton = () => {
@@ -262,9 +265,11 @@ const setNextContainer = () => {
       <div class="options-wrapper" id="options-wrapper-${
         currentQuestionIndex + 1
       }"></div>
-      <div class="evaluation-message"></div>
       <button disabled class="evaluation-button" onclick="evaluateAndSetNextContainer()">Evaluate</button>
       <button class="next-button" onclick="goOn()">Next</button>
+      <p class="evaluation-message" id="evaluation-message-${
+        currentQuestionIndex + 1
+      }"></p>
       `;
 
   questionContainer.style.transform = `translateX(-100vw)`;
@@ -317,4 +322,26 @@ const hidePreviousQuestion = () => {
   setTimeout(() => {
     questionContainer.style.display = "none";
   }, 800);
+};
+
+const colorButtons = (pickedCorrect) => {
+  if (pickedCorrect) {
+    //if the user picked the correct option just color it
+    let chosenIndex = states.indexOf(true);
+    let chosenOption = document.querySelector(
+      `#option-${currentQuestionIndex}-${chosenIndex}`
+    );
+    chosenOption.classList.add("correct");
+  } else {
+    //if the user picked the wrong option, color the correct one and the wrong ones
+    let optionsWrapper = document.querySelector(
+      `#options-wrapper-${currentQuestionIndex}`
+    );
+
+    optionsWrapper.childNodes.forEach((option, i) => {
+      i !== correctIndexes[currentQuestionIndex]
+        ? option.classList.add("wrong")
+        : option.classList.add("correct");
+    });
+  }
 };

@@ -1,6 +1,8 @@
 body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   background-color: whitesmoke;
+  padding: 0;
+  margin: 0;
 }
 
 #loading-container {
@@ -49,7 +51,7 @@ body {
   z-index: 100;
   display: inline-block;
   height: 100%;
-  transition: all 0.2s;
+  transition: all 0.8s;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
 }
@@ -81,6 +83,13 @@ body {
   display: block;
 }
 
+.evaluation-message {
+  display: block;
+  min-height: 51px;
+  margin-top: 3rem;
+  min-width: 10px;
+}
+
 .step-dot {
   position: absolute;
   top: 50%;
@@ -95,44 +104,118 @@ body {
 }
 
 footer {
+  position: absolute;
+  bottom: 0px;
   height: 15vh;
   width: 100vw;
-  display: flex;
+  display: block;
   align-items: center;
   justify-content: center;
-  background-color: whitesmoke;
+  transition: all 0.35s;
+  z-index: 100;
+}
+
+button {
+  border: none;
+  border-radius: 5px;
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #6665fb;
+  color: white;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0000fb;
+  transition: all 0.15s;
 }
 
 .question {
   font-weight: bold;
   padding: 2rem;
+  cursor: pointer;
+}
+
+.options-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  padding: 0% 10vw;
+  background-color: white;
+  transition: all 0.1s;
+  margin-bottom: 2rem;
 }
 
 .unchosen {
-  transition: all 0.15s;
+  transition: all 0.1s;
   border-style: solid;
   border-width: 2px;
 }
 
 .chosen {
-  transition: all 0.15s;
+  transition: all 0.1s;
   border-style: solid;
   border-width: 4px;
+  background-color: #6665fb;
+  color: white;
 }
 
 .option {
-  width: 100px;
-  height: 50px;
-  border-radius: 25px;
-  padding-left: auto;
-  padding-right: auto;
-  margin-top: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 1rem;
+  border-radius: 10px;
+  border: 2px solid darkgrey;
+  transition: all 0.1s;
+  cursor: pointer;
+}
+
+.option:hover:not(.chosen, .wrong, .correct) {
+  transition: all 0.05s;
+  border: 2px solid #6665fb;
+  background-color: rgba(102, 101, 251, 0.1);
+  color: #6665fb;
+  transition: all 0.1s;
+}
+
+.chosen.option {
+  border-style: solid;
+  border-width: 2px;
+  background-color: #6665fb;
+  color: white;
+  transition: all 0.1s;
+}
+
+.chosen.correct.option {
+  border-style: solid;
+  border-width: 2px;
+  background-color: rgba(1, 255, 1, 0.5);
+  border-color: rgba(3, 147, 3, 0.5);
+  color: inherit;
+  cursor: inherit;
+  box-shadow: 0px 0px 10px 0px rgba(1, 255, 1, 0.5);
+  transition: all 0.1s;
+}
+
+.correct.option {
+  border: 2px solid rgba(1, 255, 1, 0.5);
+  box-shadow: 0px 0px 10px 0px rgba(1, 255, 1, 0.5);
+  background-color: whitesmoke;
+  color: inherit;
+  cursor: inherit;
+  transition: all 0.1s;
 }
 
 .text {
   font-weight: bold;
   font-size: 16px;
-  color: #0000ff;
+  padding: 0.5rem;
   text-align: center;
 }
 
@@ -147,6 +230,10 @@ footer {
   #loading-container {
     font-size: 1.5rem;
   }
+
+  .option {
+    min-width: 40vw;
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -157,6 +244,10 @@ footer {
 
   #loading-container {
     font-size: 1.7rem;
+  }
+
+  .option {
+    min-width: 35vw;
   }
 }
 
@@ -169,6 +260,10 @@ footer {
   #loading-container {
     font-size: 1.9rem;
   }
+
+  .option {
+    min-width: 30vw;
+  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
@@ -179,6 +274,10 @@ footer {
 
   #loading-container {
     font-size: 2.1rem;
+  }
+
+  .option {
+    min-width: 25vw;
   }
 }
 
@@ -191,6 +290,10 @@ footer {
   #loading-container {
     font-size: 2.3rem;
   }
+
+  .option {
+    min-width: 20vw;
+  }
 }
 
 /* Extra extra large devices (extra large laptops and desktops, 1400px and up) */
@@ -201,5 +304,9 @@ footer {
 
   #loading-container {
     font-size: 2rem;
+  }
+
+  .option {
+    min-width: 15vw;
   }
 }
