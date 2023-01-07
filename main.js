@@ -46,7 +46,7 @@ const getData = async () => {
   try {
     const response = await gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: "1hzA42BEzt2lPvOAePP6RLLRZKggbg0RWuxSaEwd5xLc",
-      range: "!A1:F10",
+      range: "!A1:F3",
     });
     init(response.result.values);
   } catch (error) {
@@ -214,7 +214,7 @@ const enableCurrentEvaluationButton = () => {
 const evaluateAndSetNextContainer = () => {
   myEvaluation();
 
-  if (currentQuestionIndex < questions.length) {
+  if (currentQuestionIndex < questions.length - 1) {
     setNextContainer();
   }
 };
@@ -259,6 +259,13 @@ const setNextContainer = () => {
   questionContainer.classList.add("question-container");
   questionContainer.id = `question-container-${currentQuestionIndex + 1}`;
 
+  let nextNode = "";
+  if (currentQuestionIndex == questions.length - 2) {
+    nextNode = `<button class="next-button" onclick="showResults()">Show Results</button>`;
+  } else {
+    nextNode = `<button class="next-button" onclick="goOn()">Next</button>`;
+  }
+
   questionContainer.innerHTML = questionContainerContent = `
       <div class="question" id="question-${currentQuestionIndex + 1}">
       </div>
@@ -266,7 +273,7 @@ const setNextContainer = () => {
         currentQuestionIndex + 1
       }"></div>
       <button disabled class="evaluation-button" onclick="evaluateAndSetNextContainer()">Evaluate</button>
-      <button class="next-button" onclick="goOn()">Next</button>
+      ${nextNode}
       <p class="evaluation-message" id="evaluation-message-${
         currentQuestionIndex + 1
       }"></p>
@@ -275,7 +282,6 @@ const setNextContainer = () => {
   questionContainer.style.transform = `translateX(-100vw)`;
 
   //append the question container after last question container
-
   let lastQuestionContainer = document.querySelector(
     `#question-container-${currentQuestionIndex}`
   );
@@ -344,4 +350,10 @@ const colorButtons = (pickedCorrect) => {
         : option.classList.add("correct");
     });
   }
+};
+
+const showResults = () => {
+  hidePreviousQuestion();
+  let resultsContainer = document.querySelector("#results-container");
+  resultsContainer.style.transform = "translateX(0)";
 };

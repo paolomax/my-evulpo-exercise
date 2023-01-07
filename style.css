@@ -71,6 +71,18 @@ body {
   height: 75vh;
 }
 
+#results-container {
+  display: flex;
+  transform: translateX(-100vw);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 75vh;
+  background-color: white;
+  transition: all 0.8s;
+}
+
 #question-container-0 {
   transform: translateX(-100vw);
 }
