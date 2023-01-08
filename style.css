@@ -12,9 +12,28 @@ body {
   align-items: center;
   width: 100vw;
   height: 75vh;
-  background: white;
   color: grey;
   transition: all 0.8s;
+  background-image: linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.5) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0.5) 75%,
+      transparent 75%,
+      transparent
+    ),
+    linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.5) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0.5) 75%,
+      transparent 75%,
+      transparent
+    );
 }
 
 #progress-bar-container {
@@ -22,18 +41,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: whitesmoke;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
 #progress-bar {
+  border: 1px solid rgba(30, 30, 33, 0.5);
   display: flex;
   justify-content: start;
   align-items: center;
   padding: 0px;
   text-align: center;
   width: 70vw;
-  border: 1px solid darkgrey;
-  background-color: aliceblue;
   border-radius: 20px;
   height: 20px;
   position: relative;
@@ -42,12 +60,8 @@ body {
 
 #progress-bar-inner {
   width: 0%;
-  /* background-color linear gradient with alpha 0.5 */
-  background: linear-gradient(
-    90deg,
-    rgba(102, 93, 251, 0.5) 0%,
-    rgba(0, 0, 251, 0.5) 100%
-  );
+  background: rgba(102, 101, 251, 0.5);
+  border: 1px solid rgba(211, 211, 211, 0.5);
   z-index: 100;
   display: inline-block;
   height: 100%;
@@ -66,21 +80,9 @@ body {
   flex-direction: column;
   opacity: 1;
   width: 100vw;
-  background-color: white;
   transition: all 0.8s;
-  height: 75vh;
-}
-
-#results-container {
-  display: flex;
-  transform: translateX(-100vw);
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100vw;
-  height: 75vh;
   background-color: white;
-  transition: all 0.8s;
+  height: 75vh;
 }
 
 #question-container-0 {
@@ -115,6 +117,68 @@ body {
   transition: all 0.35s;
 }
 
+.correct-step-dot {
+  border: 1px solid rgba(1, 255, 1, 0.5);
+  box-shadow: 0px 0px 10px 0px rgba(1, 255, 1, 0.5);
+  transition: all 0.35s;
+}
+
+.wrong-step-dot {
+  border: 1px solid rgba(255, 1, 1, 0.5);
+  box-shadow: 0px 0px 10px 0px rgba(255, 1, 1, 0.5);
+  transition: all 0.35s;
+}
+
+#results-container {
+  display: flex;
+  transform: translateX(-100vw);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 75vh;
+  background-image: linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.5) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0.5) 75%,
+      transparent 75%,
+      transparent
+    ),
+    linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.5) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0.5) 75%,
+      transparent 75%,
+      transparent
+    );
+  transition: all 0.8s;
+}
+
+.card {
+  display: flex;
+  min-width: 500px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 60vh;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  transition: all 0.8s;
+  cursor: pointer;
+}
+
+.card:hover {
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.8);
+  transition: all 0.8s;
+}
+
 footer {
   position: absolute;
   bottom: 0px;
@@ -125,6 +189,7 @@ footer {
   justify-content: center;
   transition: all 0.35s;
   z-index: 100;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
 button {
@@ -245,6 +310,28 @@ button:hover {
 
   .option {
     min-width: 40vw;
+    margin: 0.5rem;
+    max-height: 5.5vh;
+  }
+
+  .evaluation-message {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  h2 {
+    padding: 0;
+  }
+
+  button {
+    padding: 0.5rem;
+    min-width: 80px;
+  }
+
+  .card {
+    min-width: 80%;
   }
 }
 

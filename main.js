@@ -24,6 +24,16 @@ let states = [];
 //boolean to check if the exercise has been evaluated
 let evaluated = false;
 
+//array of messages to be shown after the exercise has been evaluated
+let successMessages = ["Great!", "Awesome!", "Perfect!", "Well done!"];
+let failureMessages = ["Try again!", "Not quite!", "Almost!", "Keep trying!"];
+let scoreMessages = [
+  "You can do better!",
+  "Not bad!",
+  "Good job!",
+  "Excellent!",
+];
+
 // load the client
 function handleClientLoad() {
   gapi.load("client", initClient);
@@ -46,7 +56,7 @@ const getData = async () => {
   try {
     const response = await gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: "1hzA42BEzt2lPvOAePP6RLLRZKggbg0RWuxSaEwd5xLc",
-      range: "!A1:F5",
+      range: "!A1:F10",
     });
     init(response.result.values);
   } catch (error) {
@@ -230,12 +240,20 @@ const myEvaluation = () => {
   );
 
   let chosenIndex = states.indexOf(true);
+  //if the answer is correct, set the evaluation message to a success message
   if (chosenIndex == correctIndexes[currentQuestionIndex]) {
     pickedCorrect = true;
-    evMessage.innerHTML = "Awesome!";
+    setCurrentDot(true);
+    evMessage.innerHTML =
+      successMessages[Math.floor(Math.random() * successMessages.length)] +
+      " 😊";
     userScores.push(scores[currentQuestionIndex]);
   } else {
-    evMessage.innerHTML = "Keep trying!";
+    //if the answer is wrong, set the evaluation message to a failure message
+    setCurrentDot(false);
+    evMessage.innerHTML =
+      failureMessages[Math.floor(Math.random() * failureMessages.length)] +
+      " 😔";
   }
 
   colorButtons(pickedCorrect);
@@ -260,9 +278,11 @@ const setNextContainer = () => {
   questionContainer.id = `question-container-${currentQuestionIndex + 1}`;
 
   let nextNode = "";
+  //if the next question is the last one, set the next button to show results
   if (currentQuestionIndex == questions.length - 2) {
     nextNode = `<button class="next-button" onclick="showResults()">Show Results</button>`;
   } else {
+    //otherwise, set the next button to go on
     nextNode = `<button class="next-button" onclick="goOn()">Next</button>`;
   }
 
@@ -320,7 +340,6 @@ const showDots = () => {
 
 const hidePreviousQuestion = () => {
   //after the animation, set the display of the current question container to none
-
   let questionContainer = document.querySelector(
     `#question-container-${currentQuestionIndex}`
   );
@@ -367,8 +386,37 @@ const showResults = () => {
 };
 
 const setScore = () => {
-  let score = userScores.reduce((a, b) => a + b, 0);
+  //the total user score  is the sum of all the user scores
+  let userScore = userScores.reduce((a, b) => a + b, 0);
+
   let resultMessage = document.querySelector("#result-message");
+
   let totalScore = scores.reduce((a, b) => a + b, 0);
-  resultMessage.innerHTML = `Your score is ${score} out  of ${totalScore}!`;
+  resultMessage.innerHTML = `
+    You got a ${userScore} out of ${totalScore}!
+  `;
+  let percentageCorrect = (userScore / totalScore) * 100;
+  let scoreMessage = document.querySelector("#score-message");
+
+  if (percentageCorrect == 100) {
+    scoreMessage.innerHTML = "Perfect!" + " 🎉";
+  } else if (percentageCorrect >= 90) {
+    scoreMessage.innerHTML = "Great!" + " 👏";
+  } else if (percentageCorrect >= 80) {
+    scoreMessage.innerHTML = "Good!" + " 👍";
+  } else if (percentageCorrect >= 70) {
+    scoreMessage.innerHTML = "Not bad!" + " 👌";
+  } else if (percentageCorrect >= 60) {
+    scoreMessage.innerHTML = "You can do better";
+  } else {
+    scoreMessage.innerHTML = "You need to study more";
+  }
+};
+
+const setCurrentDot = (correct) => {
+  let stepDots = document.querySelectorAll(".step-dot");
+  let currentDot = stepDots[currentQuestionIndex];
+  correct
+    ? currentDot.classList.add("correct-step-dot")
+    : currentDot.classList.add("wrong-step-dot");
 };
