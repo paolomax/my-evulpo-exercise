@@ -230,7 +230,7 @@ const evaluateAndSetNextContainer = () => {
 };
 
 const myEvaluation = () => {
-  toggleShowButton();
+  toggleShownButton();
 
   let pickedCorrect = false;
   evaluated = true;
@@ -259,7 +259,7 @@ const myEvaluation = () => {
   colorButtons(pickedCorrect);
 };
 
-const toggleShowButton = () => {
+const toggleShownButton = () => {
   //select current evaluation button
   let evButtons = document.querySelectorAll(`.evaluation-button`);
   let evButton = evButtons[currentQuestionIndex];
