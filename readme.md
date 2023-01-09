@@ -9,7 +9,7 @@
 - For each question, the user receives an evaluation and the next question is loaded and displayed.
 - Provides feedback to the user after the exercise has been completed.
 
-## Development process
+## Development process
 In the development process, I started by connecting to the Google Sheets API. I used the provided boilerplate to retrieve the data.
 
 Once the data was retrieved, I randomized the questions and saved the relevant data for the exercise in corresponding arrays.
