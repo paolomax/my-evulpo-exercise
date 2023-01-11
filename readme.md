@@ -41,6 +41,4 @@ Then the exercise (function "startExercise()") is started. The buttons are added
 For each question, the function "toggleChoice()" will allow the user to choose or change the answer. Once the answer is given, the boolean variable "evaluated" will be set to true, so it will no longer be possible to change the answer. For each evaluation (function "myEvaluation()"), the function "toggleShowButton()" will be executed, which hides the evaluation button and shows the one to move on. 
 When the evaluation button is clicked, in addition to the evaluation being carried out, the next container is also prepared (unless it is the last question). The reasons for this choice were explained in the development process.
 
-The progress bar was built with as many buttons as there are question numbers, and with as many "blocks that advance" as there are questions - 1.
-
 The progress bar was built with as many buttons as there are questions, and with as many "advancing blocks" as there are questions - 1. The addStepDots(), showDots() and setProgressBar() functions were used. The buttons are then colored according to the correctness of the answer. The total score is then calculated by summing up, through the reduce method, the elements of the arrays scores and userScores. Depending on the score achieved, the user will receive different feedback.
